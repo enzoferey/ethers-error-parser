@@ -14,6 +14,8 @@ export default defineConfig({
   plugins: [dts()],
   test: {
     coverage: {
+      src: [resolve(__dirname, "lib")],
+      all: true,
       100: true,
     },
   },
