@@ -8,7 +8,7 @@ Parse Ethers.js errors with ease 💅🏻
 ## Highlights
 
 - Zero dependencies 🧹
-- Lightweight (0.69 KiB gzip) 📦
+- Lightweight (637 bytes gzipped) 📦
 - Simple to use ⚡️
 - Work in progress 🚧
 
