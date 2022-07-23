@@ -16,6 +16,7 @@
   },
   "scripts": {
     "build": "tsc && vite build",
+    "prepublish": "yarn build",
     "ts:check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
