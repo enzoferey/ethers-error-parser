@@ -1,15 +1,15 @@
 import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
 import type { ReturnValue } from "../types";
 
-import { getErrorWhileFormattingOutputFromRPC } from "./getErrorWhileFormattingOutputFromRPC";
+import { getErrorWhileFormattingOutputFromRPCError } from "./getErrorWhileFormattingOutputFromRPCError";
 
-export function getKnownErrorCode(
+export function getKnownError(
   errorCode: string | number,
   errorCodeMessage: string
 ): ReturnValue | undefined {
   // Handle error while formatting output from RPC
   const errorWhileFormattingOutputFromRPC =
-    getErrorWhileFormattingOutputFromRPC(errorCode, errorCodeMessage);
+    getErrorWhileFormattingOutputFromRPCError(errorCode, errorCodeMessage);
 
   if (errorWhileFormattingOutputFromRPC !== undefined) {
     return errorWhileFormattingOutputFromRPC;

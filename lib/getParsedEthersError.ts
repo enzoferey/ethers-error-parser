@@ -1,6 +1,6 @@
 import type { EthersError, ReturnValue } from "./types";
 import { ERROR_CODES } from "./constants";
-import { getKnownErrorCode } from "./utils/getKnownErrorCode";
+import { getKnownError } from "./utils/getKnownError";
 
 export function getParsedEthersError(error: EthersError): ReturnValue {
   const topLevelErrorCode = error.code;
@@ -8,7 +8,7 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
 
   // Handle top level known error codes
   if (topLevelErrorCode !== undefined && topLevelErrorMessage !== undefined) {
-    const topLevelKnownErrorCode = getKnownErrorCode(
+    const topLevelKnownErrorCode = getKnownError(
       topLevelErrorCode,
       topLevelErrorMessage
     );
@@ -26,7 +26,7 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
       nestedLevelErrorCode !== undefined &&
       nestedLevelErrorMessage !== undefined
     ) {
-      const nestedLevelKnownErrorCode = getKnownErrorCode(
+      const nestedLevelKnownErrorCode = getKnownError(
         nestedLevelErrorCode,
         nestedLevelErrorMessage
       );

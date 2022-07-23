@@ -1,7 +1,7 @@
 import type { ReturnValue } from "../types";
 import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
 
-export function getErrorWhileFormattingOutputFromRPC(
+export function getErrorWhileFormattingOutputFromRPCError(
   errorCode: string | number,
   errorCodeMessage: string
 ): ReturnValue | undefined {
