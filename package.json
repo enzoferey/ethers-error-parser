@@ -1,0 +1,32 @@
+{
+  "name": "@enzoferey/ethers-error-parser",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ethers-error-parser.umd.cjs",
+  "module": "./dist/ethers-error-parser.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/ethers-error-parser.js",
+      "require": "./dist/ethers-error-parser.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "ts:check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "echo",
+    "test": "echo"
+  },
+  "devDependencies": {
+    "prettier": "2.7.1",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2",
+    "vite-plugin-dts": "^1.4.0"
+  }
+}
