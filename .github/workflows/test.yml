@@ -61,3 +61,6 @@ jobs:
           yarn test:ci
         env:
           CI: true
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
