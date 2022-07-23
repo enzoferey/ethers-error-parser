@@ -1,0 +1,42 @@
+{
+  "name": "@enzoferey/ethers-error-parser",
+  "version": "0.1.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/ethers-error-parser.umd.cjs",
+  "module": "./dist/ethers-error-parser.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/ethers-error-parser.js",
+      "require": "./dist/ethers-error-parser.umd.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "prepublish": "yarn build",
+    "ts:check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint lib --max-warnings 0",
+    "test": "vitest",
+    "test:ci": "vitest --coverage --run"
+  },
+  "peerDependencies": {
+    "ethers": "^5.6.9"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/parser": "^5.30.7",
+    "c8": "^7.12.0",
+    "eslint": "^8.20.0",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "2.7.1",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.2",
+    "vite-plugin-dts": "^1.4.0",
+    "vitest": "^0.18.1"
+  }
+}
