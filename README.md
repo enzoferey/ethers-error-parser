@@ -1,7 +1,6 @@
 # ethers-error-parser
 
 ![Tests](https://github.com/enzoferey/ethers-error-parser/actions/workflows/test.yml/badge.svg)
-[https://badge.fury.io/for/js/@enzoferey/ethers-error-parser]
 [![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/enzoferey/ethers-error-parser.svg?maxAge=2592000)](https://codecov.io/github/enzoferey/ethers-error-parser)
 
 Parse Ethers.js errors with ease 💅🏻
