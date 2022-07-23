@@ -2,7 +2,7 @@
 
 ![Tests](https://github.com/enzoferey/ethers-error-parser/actions/workflows/test.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/@enzoferey%2Fethers-error-parser.svg)](https://badge.fury.io/js/@enzoferey%2Fethers-error-parser)
-[![codecov.io Code Coverage](https://img.shields.io/codecov/c/github/enzoferey/ethers-error-parser.svg?maxAge=2592000)](https://codecov.io/github/enzoferey/ethers-error-parser)
+[![codecov](https://codecov.io/gh/enzoferey/ethers-error-parser/branch/main/graph/badge.svg?token=9amQLrkrar)](https://codecov.io/gh/enzoferey/ethers-error-parser)
 
 Parse Ethers.js errors with ease 💅🏻
 
