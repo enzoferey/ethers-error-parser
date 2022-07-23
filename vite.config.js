@@ -1,12 +1,12 @@
 /// <reference types="vitest" />
-import { resolve } from "path";
+import path from "path";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, "lib/index.ts"),
+      entry: path.resolve(__dirname, "lib/index.ts"),
       name: "ethers-error-parser",
       fileName: "ethers-error-parser",
     },
@@ -14,8 +14,9 @@ export default defineConfig({
   plugins: [dts()],
   test: {
     coverage: {
-      src: [resolve(__dirname, "lib")],
+      src: ["lib"],
       all: true,
+      exclude: ["lib/index.ts", "lib/types.ts"],
       100: true,
     },
   },
