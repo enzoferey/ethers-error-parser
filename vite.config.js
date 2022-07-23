@@ -15,6 +15,7 @@ export default defineConfig({
   test: {
     coverage: {
       src: ["lib"],
+      reporter: ["text-lcov"],
       all: true,
       exclude: ["lib/index.ts", "lib/types.ts"],
       100: true,
