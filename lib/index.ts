@@ -1,5 +1,1 @@
-export const habak = 1;
-
-export function getHabak(): number {
-  return habak;
-}
+export { getEthersErrorMessage } from "./getEthersErrorMessage";
