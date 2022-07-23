@@ -2,7 +2,7 @@ import type { EthersError, ReturnValue } from "./types";
 import { ERROR_CODES } from "./constants";
 import { getKnownErrorCode } from "./utils/getKnownErrorCode";
 
-export function getEthersErrorMessage(error: EthersError): ReturnValue {
+export function getParsedEthersError(error: EthersError): ReturnValue {
   const topLevelErrorCode = error.code;
   const topLevelErrorMessage = error.message;
 

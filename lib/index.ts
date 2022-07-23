@@ -1,1 +1,1 @@
-export { getEthersErrorMessage } from "./getEthersErrorMessage";
+export { getParsedEthersError } from "./getParsedEthersError";
