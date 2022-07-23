@@ -25,9 +25,9 @@ Your users deserve to get amazing feedback on failing transactions. Thanks to `e
 
 ## Work in progress
 
-This package is a work in progress. Although it is not yet complete and many Ethers errors code could be handled more elegantly, it is safe to use in production as it is. Some information is better than no information.
+This package is a work in progress. Although it is not yet complete and many Ethers errors could be handled more elegantly, it is safe to use in production as it is. Some insights is better than no insights.
 
-This package is being used in different production projects and it is in constant evolution based on the needs of those projects. If you find some type of error that is not handled yet, please open an issue or pull request 🙏
+This package is being used in different production projects and it is in constant evolution based on the needs of these projects. If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
 
 ## Getting started
 
@@ -74,4 +74,4 @@ Here is the complete list of returned objects:
 | `EXECUTION_REVERTED`         | The reason why the transaction reverted.                                   |
 | `UNKNOWN_ERROR`              | Some code or description of the error if available. `undefined` otherwise. |
 
-If you find some type of error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
+If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
