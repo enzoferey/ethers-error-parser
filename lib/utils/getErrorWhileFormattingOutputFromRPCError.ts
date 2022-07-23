@@ -15,11 +15,14 @@ export function getErrorWhileFormattingOutputFromRPCError(
   }
 
   try {
-    const valueObject = JSON.parse(stringifiedValue) as
-      | { value: { data?: { code?: number } } }
-      | undefined;
+    const valueObject = JSON.parse(stringifiedValue) as {
+      value?: { data?: { code?: number } };
+    };
 
-    if (valueObject === undefined || valueObject.value.data === undefined) {
+    if (
+      valueObject.value === undefined ||
+      valueObject.value.data === undefined
+    ) {
       return undefined;
     }
 

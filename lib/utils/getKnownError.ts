@@ -24,10 +24,12 @@ export function getKnownError(
   }
 
   if (errorCode === ETHERS_ERROR_CODES.REQUIRE_TRANSACTION) {
-    return {
-      errorCode: ERROR_CODES.EXECUTION_REVERTED,
-      context: errorCodeMessage.slice("execution reverted: ".length),
-    };
+    if (errorCodeMessage.includes("execution reverted: ")) {
+      return {
+        errorCode: ERROR_CODES.EXECUTION_REVERTED,
+        context: errorCodeMessage.slice("execution reverted: ".length),
+      };
+    }
   }
 
   return undefined;
