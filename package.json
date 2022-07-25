@@ -1,6 +1,17 @@
 {
   "name": "@enzoferey/ethers-error-parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "license": "MIT",
+  "homepage": "https://github.com/enzoferey/ethers-error-parser",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enzoferey/ethers-error-parser.git"
+  },
+  "keywords": [
+    "ethers-js",
+    "error",
+    "parsing"
+  ],
   "type": "module",
   "files": [
     "dist"
@@ -16,7 +27,7 @@
   },
   "scripts": {
     "build": "tsc && vite build",
-    "prepublish": "yarn build",
+    "prepublishOnly": "yarn build",
     "ts:check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

@@ -13,11 +13,12 @@ export default defineConfig({
   },
   plugins: [dts()],
   test: {
+    mockReset: true,
     coverage: {
       src: ["lib"],
-      reporter: ["lcov"],
+      reporter: ["text", "lcov"],
       all: true,
-      exclude: ["lib/index.ts", "lib/types.ts"],
+      exclude: ["lib/**/index.ts", "lib/types.ts", "*.d.ts"],
       100: true,
     },
   },
