@@ -34,7 +34,7 @@ This package is being used in different production projects and it is in constan
 1. Install the package
 
 ```sh
-yarn install @enzoferey/ethers-error-parser
+yarn add @enzoferey/ethers-error-parser
 ```
 
 2. Use it
