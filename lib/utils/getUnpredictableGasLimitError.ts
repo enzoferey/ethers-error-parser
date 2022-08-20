@@ -19,12 +19,40 @@ export function getUnpredictableGasLimitError(
     ethersError.error.data.message !== undefined
   ) {
     const errorMessage = ethersError.error.data.message;
-
     if (errorMessage.includes("execution reverted: ")) {
       return {
         errorCode: RETURN_VALUE_ERROR_CODES.EXECUTION_REVERTED,
         context: errorMessage.slice("execution reverted: ".length),
       };
+    }
+  }
+
+  if (
+    ethersError.error !== undefined &&
+    ethersError.error.error !== undefined &&
+    ethersError.error.error.error !== undefined &&
+    ethersError.error.error.error.code ===
+      NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED &&
+    ethersError.error.error.error.body !== undefined
+  ) {
+    try {
+      const bodyObject = JSON.parse(ethersError.error.error.error.body) as {
+        error?: {
+          message?: string;
+        };
+      };
+
+      if (
+        bodyObject.error !== undefined &&
+        bodyObject.error.message === "gas required exceeds allowance (0)"
+      ) {
+        return {
+          errorCode: RETURN_VALUE_ERROR_CODES.NOT_ENOUGH_FUNDS_FOR_GAS,
+          context: undefined,
+        };
+      }
+    } catch {
+      return undefined;
     }
   }
 

@@ -34,48 +34,52 @@ describe("getParsedEthersError", () => {
       context: undefined,
     });
   });
-  it("should handle transaction underpriced that does not provide the right JSON details", () => {
-    const result1 = getParsedEthersError({
-      message: "",
-      error: {
-        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-        message: `RPC '{"value":{"data":{"code":"SOME NON EXPECTED CODE"}}}'`,
-      },
-    });
+  it("should handle transaction underpriced that provides an unknown code", () => {
+    const message = `RPC '{"value":{"data":{"code":"SOME UNKNOWN CODE"}}}'`;
 
-    expect(result1).toEqual({
-      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
-    });
-
-    const result2 = getParsedEthersError({
-      message: "",
-      error: {
-        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-        message: `RPC '{}'`,
-      },
-    });
-
-    expect(result2).toEqual({
-      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
-    });
-  });
-  it("should handle transaction underpriced that does not provide a valid JSON details", () => {
     const result = getParsedEthersError({
       message: "",
       error: {
         code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-        message: `RPC 'not-a-json'`,
+        message,
       },
     });
 
     expect(result).toEqual({
       errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
+      context: message,
+    });
+  });
+  it("should handle transaction underpriced that does not provide the right JSON details", () => {
+    const message = `RPC '{}'`;
+
+    const result2 = getParsedEthersError({
+      message: "",
+      error: {
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
+        message,
+      },
+    });
+
+    expect(result2).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: message,
+    });
+  });
+  it("should handle transaction underpriced that does not provide a valid JSON details", () => {
+    const message = `RPC 'not-a-json'`;
+
+    const result = getParsedEthersError({
+      message: "",
+      error: {
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
+        message,
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: message,
     });
   });
   it("should handle transaction rejected", () => {
@@ -129,6 +133,25 @@ describe("getParsedEthersError", () => {
       context: reason,
     });
   });
+  it("should handle no enough funds for gas", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+            body: '{"error":{"message":"gas required exceeds allowance (0)"}}',
+          },
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.NOT_ENOUGH_FUNDS_FOR_GAS,
+      context: undefined,
+    });
+  });
   it("should handle nonce too low errors", () => {
     const nonce = 100;
 
@@ -150,6 +173,25 @@ describe("getParsedEthersError", () => {
     const result = getParsedEthersError({
       code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
       message: "",
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+    });
+  });
+  it("should handle unpredictable gas limit with transaction underpriced code but non valid JSON body", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+            body: "not-a-json",
+          },
+        },
+      },
     });
 
     expect(result).toEqual({
