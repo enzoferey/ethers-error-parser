@@ -66,14 +66,16 @@ interface ReturnValue {
 
 Here is the complete list of returned objects:
 
-| `errorCode`                  | `context`                                                                  |
-| ---------------------------- | -------------------------------------------------------------------------- |
-| `TRANSACTION_RAN_OUT_OF_GAS` | The transaction gas limit as a string.                                     |
-| `TRANSACTION_UNDERPRICED`    | `undefined`                                                                |
-| `REJECTED_TRANSACTION`       | The reason why the transaction rejected.                                   |
-| `EXECUTION_REVERTED`         | The reason why the transaction reverted.                                   |
-| `NONCE_TOO_LOW`              | The transaction nonce as a string.                                         |
-| `INSUFFICIENT_FUNDS_FOR_GAS` | `undefined`                                                                |
-| `UNKNOWN_ERROR`              | Some code or description of the error if available. `undefined` otherwise. |
+| `errorCode`                                            | `context`                                                                  |
+| ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| `TRANSACTION_RAN_OUT_OF_GAS`                           | The transaction gas limit as a string.                                     |
+| `TRANSACTION_UNDERPRICED`                              | `undefined`                                                                |
+| `REJECTED_TRANSACTION`                                 | The reason why the transaction rejected.                                   |
+| `EXECUTION_REVERTED`                                   | The reason why the transaction reverted.                                   |
+| `NONCE_TOO_LOW`                                        | The transaction nonce as a string.                                         |
+| `INSUFFICIENT_FUNDS_FOR_GAS`                           | `undefined`                                                                |
+| `MAX_PRIORITY_FEE_PER_GAS_HIGHER_THAN_MAX_FEE_PER_GAS` | `undefined `                                                               |
+| `MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE`             | `undefined `                                                               |
+| `UNKNOWN_ERROR`                                        | Some code or description of the error if available. `undefined` otherwise. |
 
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
