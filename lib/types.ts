@@ -21,6 +21,9 @@ export interface EthersError {
 export interface NestedEthersError {
   code?: string | number;
   message?: string;
+  data?: {
+    message?: string;
+  };
 }
 
 type ValueOf<T> = T[keyof T];

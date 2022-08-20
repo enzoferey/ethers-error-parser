@@ -134,6 +134,25 @@ describe("getParsedEthersError", () => {
       context: reason,
     });
   });
+  it("should handle execution reverted gas estimate errors", () => {
+    const reason = "Some reason";
+
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        code: ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
+        data: {
+          message: `execution reverted: ${reason}`,
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: ERROR_CODES.EXECUTION_REVERTED,
+      context: reason,
+    });
+  });
   it("should handle nonce too low errors", () => {
     const nonce = 100;
 
@@ -149,6 +168,17 @@ describe("getParsedEthersError", () => {
     expect(result).toEqual({
       errorCode: ERROR_CODES.NONCE_TOO_LOW,
       context: nonce.toString(),
+    });
+  });
+  it("should handle unknown unpredictable gas limit errors", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+    });
+
+    expect(result).toEqual({
+      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      context: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
     });
   });
   it("should handle transaction ran out of gas errors", () => {
