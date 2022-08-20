@@ -47,7 +47,7 @@ export function getUnpredictableGasLimitError(
         bodyObject.error.message === "gas required exceeds allowance (0)"
       ) {
         return {
-          errorCode: RETURN_VALUE_ERROR_CODES.NOT_ENOUGH_FUNDS_FOR_GAS,
+          errorCode: RETURN_VALUE_ERROR_CODES.INSUFFICIENT_FUNDS_FOR_GAS,
           context: undefined,
         };
       }

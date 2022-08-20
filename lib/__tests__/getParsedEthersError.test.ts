@@ -148,7 +148,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: RETURN_VALUE_ERROR_CODES.NOT_ENOUGH_FUNDS_FOR_GAS,
+      errorCode: RETURN_VALUE_ERROR_CODES.INSUFFICIENT_FUNDS_FOR_GAS,
       context: undefined,
     });
   });
