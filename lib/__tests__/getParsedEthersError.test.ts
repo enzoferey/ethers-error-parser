@@ -131,7 +131,7 @@ describe("getParsedEthersError", () => {
       context: reason,
     });
   });
-  it("should handle transaction run out of gas errors", () => {
+  it("should handle transaction ran out of gas errors", () => {
     const gasLimit = getTestBigNumber("100");
     const gasUsed = getTestBigNumber("100");
 
@@ -145,7 +145,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.TRANSACTION_RUN_OUT_OF_GAS,
+      errorCode: ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
       context: gasLimit.toString(),
     });
   });
