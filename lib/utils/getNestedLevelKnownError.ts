@@ -1,18 +1,26 @@
 import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
-import type { ReturnValue } from "../types";
+import type { NestedEthersError, ReturnValue } from "../types";
 
 import { getErrorWhileFormattingOutputFromRPCError } from "./getErrorWhileFormattingOutputFromRPCError";
 
-export function getKnownError(
-  errorCode: string | number,
-  errorCodeMessage: string
+export function getNestedLevelKnownError(
+  ethersError: NestedEthersError
 ): ReturnValue | undefined {
-  // Handle error while formatting output from RPC
-  const errorWhileFormattingOutputFromRPC =
-    getErrorWhileFormattingOutputFromRPCError(errorCode, errorCodeMessage);
+  const errorCode = ethersError.code;
+  const errorCodeMessage = ethersError.message;
 
-  if (errorWhileFormattingOutputFromRPC !== undefined) {
-    return errorWhileFormattingOutputFromRPC;
+  if (errorCode === undefined) {
+    return undefined;
+  }
+
+  // Handle error while formatting output from RPC
+  if (errorCodeMessage !== undefined) {
+    const errorWhileFormattingOutputFromRPC =
+      getErrorWhileFormattingOutputFromRPCError(errorCode, errorCodeMessage);
+
+    if (errorWhileFormattingOutputFromRPC !== undefined) {
+      return errorWhileFormattingOutputFromRPC;
+    }
   }
 
   // Check other known error codes
@@ -23,7 +31,10 @@ export function getKnownError(
     };
   }
 
-  if (errorCode === ETHERS_ERROR_CODES.REQUIRE_TRANSACTION) {
+  if (
+    errorCode === ETHERS_ERROR_CODES.REQUIRE_TRANSACTION &&
+    errorCodeMessage !== undefined
+  ) {
     if (errorCodeMessage.includes("execution reverted: ")) {
       return {
         errorCode: ERROR_CODES.EXECUTION_REVERTED,
