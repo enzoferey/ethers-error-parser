@@ -68,7 +68,7 @@ Here is the complete list of returned objects:
 
 | `errorCode`                  | `context`                                                                  |
 | ---------------------------- | -------------------------------------------------------------------------- |
-| `TRANSACTION_RUN_OUT_OF_GAS` | The transaction gas limit as a string.                                     |
+| `TRANSACTION_RAN_OUT_OF_GAS` | The transaction gas limit as a string.                                     |
 | `TRANSACTION_UNDERPRICED`    | `undefined`                                                                |
 | `REJECTED_TRANSACTION`       | The reason why the transaction rejected.                                   |
 | `EXECUTION_REVERTED`         | The reason why the transaction reverted.                                   |

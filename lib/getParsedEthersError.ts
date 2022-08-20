@@ -36,14 +36,14 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
     }
   }
 
-  // Check for run out of gas error
+  // Check for ran out of gas error
   if (error.transaction !== undefined && error.receipt !== undefined) {
     const transactionGasLimit = error.transaction.gasLimit;
     const receiptGasUsed = error.receipt.gasUsed;
 
     if (receiptGasUsed.gte(transactionGasLimit)) {
       return {
-        errorCode: ERROR_CODES.TRANSACTION_RUN_OUT_OF_GAS,
+        errorCode: ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
         context: error.transaction.gasLimit.toString(),
       };
     }
