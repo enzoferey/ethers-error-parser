@@ -152,6 +152,46 @@ describe("getParsedEthersError", () => {
       context: undefined,
     });
   });
+  it("should handle max priority fee per gas higher than max fee per gas", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+          },
+          body: '{"error":{"message":"max priority fee per gas higher than max fee per gas"}}',
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode:
+        RETURN_VALUE_ERROR_CODES.MAX_PRIORITY_FEE_PER_GAS_HIGHER_THAN_MAX_FEE_PER_GAS,
+      context: undefined,
+    });
+  });
+  it("should handle max fee per gas less than block base fee", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+          },
+          body: '{"error":{"message":"max fee per gas less than block base fee"}}',
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode:
+        RETURN_VALUE_ERROR_CODES.MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE,
+      context: undefined,
+    });
+  });
   it("should handle nonce too low errors", () => {
     const nonce = 100;
 
