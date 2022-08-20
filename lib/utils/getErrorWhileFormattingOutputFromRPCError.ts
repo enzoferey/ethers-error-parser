@@ -1,11 +1,17 @@
 import type { ReturnValue } from "../types";
-import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
+import {
+  RETURN_VALUE_ERROR_CODES,
+  NESTED_ETHERS_ERROR_CODES,
+} from "../constants";
 
 export function getErrorWhileFormattingOutputFromRPCError(
   errorCode: string | number,
   errorCodeMessage: string
 ): ReturnValue | undefined {
-  if (errorCode !== ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC) {
+  if (
+    errorCode !==
+    NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC
+  ) {
     return undefined;
   }
 
@@ -27,10 +33,11 @@ export function getErrorWhileFormattingOutputFromRPCError(
     }
 
     if (
-      valueObject.value.data.code === ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED
+      valueObject.value.data.code ===
+      NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED
     ) {
       return {
-        errorCode: ERROR_CODES.TRANSACTION_UNDERPRICED,
+        errorCode: RETURN_VALUE_ERROR_CODES.TRANSACTION_UNDERPRICED,
         context: undefined,
       };
     }

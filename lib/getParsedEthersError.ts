@@ -1,5 +1,5 @@
 import type { EthersError, ReturnValue } from "./types";
-import { ERROR_CODES } from "./constants";
+import { RETURN_VALUE_ERROR_CODES } from "./constants";
 import { getNestedLevelKnownError } from "./utils/getNestedLevelKnownError";
 import { getTopLevelKnownError } from "./utils/getTopLevelKnownError";
 
@@ -33,7 +33,7 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
 
     if (receiptGasUsed.gte(transactionGasLimit)) {
       return {
-        errorCode: ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
+        errorCode: RETURN_VALUE_ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
         context: topLevelEthersError.transaction.gasLimit.toString(),
       };
     }
@@ -44,7 +44,7 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
   // Try providing some context via the nested level error message
   if (error.error !== undefined && error.error.message !== undefined) {
     return {
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: error.error.message,
     };
   }
@@ -52,13 +52,13 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
   // Try providing some context via the top level error code
   if (topLevelEthersError.code !== undefined) {
     return {
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: topLevelEthersError.code.toString(),
     };
   }
 
   return {
-    errorCode: ERROR_CODES.UNKNOWN_ERROR,
+    errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
     context: undefined,
   };
 }

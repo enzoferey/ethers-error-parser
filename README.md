@@ -73,6 +73,7 @@ Here is the complete list of returned objects:
 | `REJECTED_TRANSACTION`       | The reason why the transaction rejected.                                   |
 | `EXECUTION_REVERTED`         | The reason why the transaction reverted.                                   |
 | `NONCE_TOO_LOW`              | The transaction nonce as a string.                                         |
+| `INSUFFICIENT_FUNDS_FOR_GAS` | `undefined`                                                                |
 | `UNKNOWN_ERROR`              | Some code or description of the error if available. `undefined` otherwise. |
 
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏

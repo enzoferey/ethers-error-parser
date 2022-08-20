@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import type { BigNumber } from "../types";
-import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
+import {
+  RETURN_VALUE_ERROR_CODES,
+  ETHERS_ERROR_CODES,
+  NESTED_ETHERS_ERROR_CODES,
+} from "../constants";
 import { getParsedEthersError } from "../getParsedEthersError";
 
 function getTestBigNumber(value: string): BigNumber {
@@ -16,121 +20,97 @@ function getTestBigNumber(value: string): BigNumber {
 }
 
 describe("getParsedEthersError", () => {
-  it("should handle transaction underpriced at the top level", () => {
-    const result = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-      message: `RPC '{"value":{"data":{"code":${ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED}}}}'`,
-    });
-
-    expect(result).toEqual({
-      errorCode: ERROR_CODES.TRANSACTION_UNDERPRICED,
-      context: undefined,
-    });
-  });
-  it("should handle transaction underpriced at the nested level", () => {
+  it("should handle transaction underpriced", () => {
     const result = getParsedEthersError({
       message: "",
       error: {
-        code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-        message: `RPC '{"value":{"data":{"code":${ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED}}}}'`,
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
+        message: `RPC '{"value":{"data":{"code":${NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED}}}}'`,
       },
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.TRANSACTION_UNDERPRICED,
+      errorCode: RETURN_VALUE_ERROR_CODES.TRANSACTION_UNDERPRICED,
       context: undefined,
     });
   });
-  it("should handle transaction underpriced that does not provide the right JSON details", () => {
-    const result1 = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-      message: `RPC '{"value":{"data":{"code":"SOME NON EXPECTED CODE"}}}'`,
-    });
-
-    expect(result1).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
-    });
-
-    const result2 = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-      message: `RPC '{}'`,
-    });
-
-    expect(result2).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
-    });
-  });
-  it("should handle transaction underpriced that does not provide a valid JSON details", () => {
-    const result = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
-      message: `RPC 'not-a-json'`,
-    });
-
-    expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
-      context:
-        ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC.toString(),
-    });
-  });
-  it("should handle transaction rejected at the top level", () => {
-    const message = "User rejected transaction";
-
-    const result = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.REJECTED_TRANSACTION,
-      message,
-    });
-
-    expect(result).toEqual({
-      errorCode: ERROR_CODES.REJECTED_TRANSACTION,
-      context: message,
-    });
-  });
-  it("should handle transaction rejected at the nested level", () => {
-    const message = "User rejected transaction";
+  it("should handle transaction underpriced that provides an unknown code", () => {
+    const message = `RPC '{"value":{"data":{"code":"SOME UNKNOWN CODE"}}}'`;
 
     const result = getParsedEthersError({
       message: "",
       error: {
-        code: ETHERS_ERROR_CODES.REJECTED_TRANSACTION,
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
         message,
       },
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.REJECTED_TRANSACTION,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: message,
     });
   });
-  it("should handle execution reverted at the top level", () => {
-    const reason = "Some reason";
+  it("should handle transaction underpriced that does not provide the right JSON details", () => {
+    const message = `RPC '{}'`;
+
+    const result2 = getParsedEthersError({
+      message: "",
+      error: {
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
+        message,
+      },
+    });
+
+    expect(result2).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: message,
+    });
+  });
+  it("should handle transaction underpriced that does not provide a valid JSON details", () => {
+    const message = `RPC 'not-a-json'`;
 
     const result = getParsedEthersError({
-      code: ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
-      message: `execution reverted: ${reason}`,
+      message: "",
+      error: {
+        code: NESTED_ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
+        message,
+      },
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.EXECUTION_REVERTED,
-      context: reason,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: message,
     });
   });
-  it("should handle execution reverted at the nested level", () => {
+  it("should handle transaction rejected", () => {
+    const message = "User rejected transaction";
+
+    const result = getParsedEthersError({
+      message: "",
+      error: {
+        code: NESTED_ETHERS_ERROR_CODES.REJECTED_TRANSACTION,
+        message,
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION,
+      context: message,
+    });
+  });
+  it("should handle execution reverted", () => {
     const reason = "Some reason";
 
     const result = getParsedEthersError({
       message: "",
       error: {
-        code: ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
+        code: NESTED_ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
         message: `execution reverted: ${reason}`,
       },
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.EXECUTION_REVERTED,
+      errorCode: RETURN_VALUE_ERROR_CODES.EXECUTION_REVERTED,
       context: reason,
     });
   });
@@ -141,7 +121,7 @@ describe("getParsedEthersError", () => {
       code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
       message: "",
       error: {
-        code: ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
+        code: NESTED_ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
         data: {
           message: `execution reverted: ${reason}`,
         },
@@ -149,8 +129,27 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.EXECUTION_REVERTED,
+      errorCode: RETURN_VALUE_ERROR_CODES.EXECUTION_REVERTED,
       context: reason,
+    });
+  });
+  it("should handle no enough funds for gas", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+            body: '{"error":{"message":"gas required exceeds allowance (0)"}}',
+          },
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.INSUFFICIENT_FUNDS_FOR_GAS,
+      context: undefined,
     });
   });
   it("should handle nonce too low errors", () => {
@@ -166,7 +165,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.NONCE_TOO_LOW,
+      errorCode: RETURN_VALUE_ERROR_CODES.NONCE_TOO_LOW,
       context: nonce.toString(),
     });
   });
@@ -177,7 +176,26 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
+      context: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+    });
+  });
+  it("should handle unpredictable gas limit with transaction underpriced code but non valid JSON body", () => {
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
+      message: "",
+      error: {
+        error: {
+          error: {
+            code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
+            body: "not-a-json",
+          },
+        },
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: ETHERS_ERROR_CODES.UNPREDICTABLE_GAS_LIMIT,
     });
   });
@@ -197,7 +215,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
+      errorCode: RETURN_VALUE_ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
       context: gasLimit.toString(),
     });
   });
@@ -214,7 +232,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: message,
     });
   });
@@ -229,7 +247,7 @@ describe("getParsedEthersError", () => {
     });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: message,
     });
   });
@@ -239,7 +257,7 @@ describe("getParsedEthersError", () => {
     const result = getParsedEthersError({ code, message: "" });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: code,
     });
   });
@@ -247,7 +265,7 @@ describe("getParsedEthersError", () => {
     const result = getParsedEthersError({ message: "" });
 
     expect(result).toEqual({
-      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      errorCode: RETURN_VALUE_ERROR_CODES.UNKNOWN_ERROR,
       context: undefined,
     });
   });

@@ -1,4 +1,4 @@
-import { ERROR_CODES } from "./constants";
+import { RETURN_VALUE_ERROR_CODES } from "./constants";
 
 export interface BigNumber {
   gte: (other: BigNumber) => boolean;
@@ -24,11 +24,17 @@ export interface NestedEthersError {
   data?: {
     message?: string;
   };
+  error?: {
+    error?: {
+      code?: string | number;
+      body?: string;
+    };
+  };
 }
 
 type ValueOf<T> = T[keyof T];
 
-type ErrorCode = ValueOf<typeof ERROR_CODES>;
+type ErrorCode = ValueOf<typeof RETURN_VALUE_ERROR_CODES>;
 
 export type ReturnValue = {
   errorCode: ErrorCode;
