@@ -33,10 +33,10 @@ export function getUnpredictableGasLimitError(
     ethersError.error.error.error !== undefined &&
     ethersError.error.error.error.code ===
       NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED &&
-    ethersError.error.error.error.body !== undefined
+    ethersError.error.error.body !== undefined
   ) {
     try {
-      const bodyObject = JSON.parse(ethersError.error.error.error.body) as {
+      const bodyObject = JSON.parse(ethersError.error.error.body) as {
         error?: {
           message?: string;
         };
@@ -44,12 +44,42 @@ export function getUnpredictableGasLimitError(
 
       if (
         bodyObject.error !== undefined &&
-        bodyObject.error.message === "gas required exceeds allowance (0)"
+        bodyObject.error.message !== undefined
       ) {
-        return {
-          errorCode: RETURN_VALUE_ERROR_CODES.INSUFFICIENT_FUNDS_FOR_GAS,
-          context: undefined,
-        };
+        if (
+          bodyObject.error.message.includes(
+            "gas required exceeds allowance (0)"
+          )
+        ) {
+          return {
+            errorCode: RETURN_VALUE_ERROR_CODES.INSUFFICIENT_FUNDS_FOR_GAS,
+            context: undefined,
+          };
+        }
+
+        if (
+          bodyObject.error.message.includes(
+            "max priority fee per gas higher than max fee per gas"
+          )
+        ) {
+          return {
+            errorCode:
+              RETURN_VALUE_ERROR_CODES.MAX_PRIORITY_FEE_PER_GAS_HIGHER_THAN_MAX_FEE_PER_GAS,
+            context: undefined,
+          };
+        }
+
+        if (
+          bodyObject.error.message.includes(
+            "max fee per gas less than block base fee"
+          )
+        ) {
+          return {
+            errorCode:
+              RETURN_VALUE_ERROR_CODES.MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE,
+            context: undefined,
+          };
+        }
       }
     } catch {
       return undefined;
