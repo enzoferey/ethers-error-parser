@@ -20,7 +20,5 @@ export function getUnpredictableGasLimitError(
     }
   }
 
-
-
   return undefined;
 }
