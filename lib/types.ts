@@ -27,8 +27,8 @@ export interface NestedEthersError {
   error?: {
     error?: {
       code?: string | number;
-      body?: string;
     };
+    body?: string;
   };
 }
 

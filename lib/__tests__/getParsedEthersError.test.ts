@@ -141,8 +141,8 @@ describe("getParsedEthersError", () => {
         error: {
           error: {
             code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
-            body: '{"error":{"message":"gas required exceeds allowance (0)"}}',
           },
+          body: '{"error":{"message":"gas required exceeds allowance (0)"}}',
         },
       },
     });
@@ -188,8 +188,8 @@ describe("getParsedEthersError", () => {
         error: {
           error: {
             code: NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED,
-            body: "not-a-json",
           },
+          body: "not-a-json",
         },
       },
     });

@@ -33,10 +33,10 @@ export function getUnpredictableGasLimitError(
     ethersError.error.error.error !== undefined &&
     ethersError.error.error.error.code ===
       NESTED_ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED &&
-    ethersError.error.error.error.body !== undefined
+    ethersError.error.error.body !== undefined
   ) {
     try {
-      const bodyObject = JSON.parse(ethersError.error.error.error.body) as {
+      const bodyObject = JSON.parse(ethersError.error.error.body) as {
         error?: {
           message?: string;
         };
