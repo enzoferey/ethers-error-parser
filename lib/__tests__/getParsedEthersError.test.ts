@@ -29,6 +29,7 @@ describe("getParsedEthersError", () => {
   });
   it("should handle transaction underpriced at the nested level", () => {
     const result = getParsedEthersError({
+      message: "",
       error: {
         code: ETHERS_ERROR_CODES.ERROR_WHILE_FORMATTING_OUTPUT_FROM_RPC,
         message: `RPC '{"value":{"data":{"code":${ETHERS_ERROR_CODES.TRANSACTION_UNDERPRICED}}}}'`,
@@ -92,6 +93,7 @@ describe("getParsedEthersError", () => {
     const message = "User rejected transaction";
 
     const result = getParsedEthersError({
+      message: "",
       error: {
         code: ETHERS_ERROR_CODES.REJECTED_TRANSACTION,
         message,
@@ -120,6 +122,7 @@ describe("getParsedEthersError", () => {
     const reason = "Some reason";
 
     const result = getParsedEthersError({
+      message: "",
       error: {
         code: ETHERS_ERROR_CODES.REQUIRE_TRANSACTION,
         message: `execution reverted: ${reason}`,
@@ -131,13 +134,32 @@ describe("getParsedEthersError", () => {
       context: reason,
     });
   });
+  it("should handle nonce too low errors", () => {
+    const nonce = 100;
+
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.NONCE_EXPIRED,
+      message: "nonce has already been used",
+      transaction: {
+        gasLimit: getTestBigNumber("1"),
+        nonce,
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: ERROR_CODES.NONCE_TOO_LOW,
+      context: nonce.toString(),
+    });
+  });
   it("should handle transaction ran out of gas errors", () => {
     const gasLimit = getTestBigNumber("100");
     const gasUsed = getTestBigNumber("100");
 
     const result = getParsedEthersError({
+      message: "",
       transaction: {
         gasLimit,
+        nonce: 0,
       },
       receipt: {
         gasUsed,
@@ -149,10 +171,28 @@ describe("getParsedEthersError", () => {
       context: gasLimit.toString(),
     });
   });
-  it("should handle unknown errors with a nested level error message", () => {
+  it("should handle unknown errors with a nested level error", () => {
+    const code = "SOME INTERNAL ETHERS CODE";
     const message = "Some internal Ethers error message";
 
     const result = getParsedEthersError({
+      message: "",
+      error: {
+        code,
+        message,
+      },
+    });
+
+    expect(result).toEqual({
+      errorCode: ERROR_CODES.UNKNOWN_ERROR,
+      context: message,
+    });
+  });
+  it("should handle unknown errors with only a nested level error message", () => {
+    const message = "Some internal Ethers error message";
+
+    const result = getParsedEthersError({
+      message: "",
       error: {
         message,
       },
@@ -166,7 +206,7 @@ describe("getParsedEthersError", () => {
   it("should handle unknown errors with a top level error code", () => {
     const code = "SOME INTERNAL ETHERS CODE";
 
-    const result = getParsedEthersError({ code });
+    const result = getParsedEthersError({ code, message: "" });
 
     expect(result).toEqual({
       errorCode: ERROR_CODES.UNKNOWN_ERROR,
@@ -174,7 +214,7 @@ describe("getParsedEthersError", () => {
     });
   });
   it("should handle totally unknown errors", () => {
-    const result = getParsedEthersError({});
+    const result = getParsedEthersError({ message: "" });
 
     expect(result).toEqual({
       errorCode: ERROR_CODES.UNKNOWN_ERROR,

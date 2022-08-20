@@ -7,14 +7,20 @@ export interface BigNumber {
 
 export interface EthersError {
   code?: string | number;
-  message?: string;
-  error?: EthersError;
+  message: string;
+  error?: NestedEthersError;
   transaction?: {
     gasLimit: BigNumber;
+    nonce: number;
   };
   receipt?: {
     gasUsed: BigNumber;
   };
+}
+
+export interface NestedEthersError {
+  code?: string | number;
+  message?: string;
 }
 
 type ValueOf<T> = T[keyof T];

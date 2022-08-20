@@ -1,50 +1,40 @@
 import type { EthersError, ReturnValue } from "./types";
 import { ERROR_CODES } from "./constants";
-import { getKnownError } from "./utils/getKnownError";
+import { getNestedLevelKnownError } from "./utils/getNestedLevelKnownError";
+import { getTopLevelKnownError } from "./utils/getTopLevelKnownError";
 
 export function getParsedEthersError(error: EthersError): ReturnValue {
-  const topLevelErrorCode = error.code;
-  const topLevelErrorMessage = error.message;
+  const topLevelEthersError = error;
+  const nestedLevelEthersError = error.error;
 
   // Handle top level known error codes
-  if (topLevelErrorCode !== undefined && topLevelErrorMessage !== undefined) {
-    const topLevelKnownErrorCode = getKnownError(
-      topLevelErrorCode,
-      topLevelErrorMessage
-    );
-    if (topLevelKnownErrorCode !== undefined) {
-      return topLevelKnownErrorCode;
-    }
+  const topLevelKnownErrorCode = getTopLevelKnownError(topLevelEthersError);
+  if (topLevelKnownErrorCode !== undefined) {
+    return topLevelKnownErrorCode;
   }
 
   // Handle nested level known error codes
-  if (error.error !== undefined) {
-    const nestedLevelErrorCode = error.error.code;
-    const nestedLevelErrorMessage = error.error.message;
-
-    if (
-      nestedLevelErrorCode !== undefined &&
-      nestedLevelErrorMessage !== undefined
-    ) {
-      const nestedLevelKnownErrorCode = getKnownError(
-        nestedLevelErrorCode,
-        nestedLevelErrorMessage
-      );
-      if (nestedLevelKnownErrorCode !== undefined) {
-        return nestedLevelKnownErrorCode;
-      }
+  if (nestedLevelEthersError !== undefined) {
+    const nestedLevelKnownErrorCode = getNestedLevelKnownError(
+      nestedLevelEthersError
+    );
+    if (nestedLevelKnownErrorCode !== undefined) {
+      return nestedLevelKnownErrorCode;
     }
   }
 
   // Check for ran out of gas error
-  if (error.transaction !== undefined && error.receipt !== undefined) {
-    const transactionGasLimit = error.transaction.gasLimit;
-    const receiptGasUsed = error.receipt.gasUsed;
+  if (
+    topLevelEthersError.transaction !== undefined &&
+    topLevelEthersError.receipt !== undefined
+  ) {
+    const transactionGasLimit = topLevelEthersError.transaction.gasLimit;
+    const receiptGasUsed = topLevelEthersError.receipt.gasUsed;
 
     if (receiptGasUsed.gte(transactionGasLimit)) {
       return {
         errorCode: ERROR_CODES.TRANSACTION_RAN_OUT_OF_GAS,
-        context: error.transaction.gasLimit.toString(),
+        context: topLevelEthersError.transaction.gasLimit.toString(),
       };
     }
   }
@@ -60,10 +50,10 @@ export function getParsedEthersError(error: EthersError): ReturnValue {
   }
 
   // Try providing some context via the top level error code
-  if (topLevelErrorCode !== undefined) {
+  if (topLevelEthersError.code !== undefined) {
     return {
       errorCode: ERROR_CODES.UNKNOWN_ERROR,
-      context: topLevelErrorCode.toString(),
+      context: topLevelEthersError.code.toString(),
     };
   }
 
