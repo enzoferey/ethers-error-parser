@@ -1,4 +1,7 @@
-import { ERROR_CODES, ETHERS_ERROR_CODES } from "../constants";
+import {
+  RETURN_VALUE_ERROR_CODES,
+  NESTED_ETHERS_ERROR_CODES,
+} from "../constants";
 import type { NestedEthersError, ReturnValue } from "../types";
 
 import { getErrorWhileFormattingOutputFromRPCError } from "./getErrorWhileFormattingOutputFromRPCError";
@@ -24,20 +27,20 @@ export function getNestedLevelKnownError(
   }
 
   // Check other known error codes
-  if (errorCode === ETHERS_ERROR_CODES.REJECTED_TRANSACTION) {
+  if (errorCode === NESTED_ETHERS_ERROR_CODES.REJECTED_TRANSACTION) {
     return {
-      errorCode: ERROR_CODES.REJECTED_TRANSACTION,
+      errorCode: RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION,
       context: errorCodeMessage,
     };
   }
 
   if (
-    errorCode === ETHERS_ERROR_CODES.REQUIRE_TRANSACTION &&
+    errorCode === NESTED_ETHERS_ERROR_CODES.REQUIRE_TRANSACTION &&
     errorCodeMessage !== undefined
   ) {
     if (errorCodeMessage.includes("execution reverted: ")) {
       return {
-        errorCode: ERROR_CODES.EXECUTION_REVERTED,
+        errorCode: RETURN_VALUE_ERROR_CODES.EXECUTION_REVERTED,
         context: errorCodeMessage.slice("execution reverted: ".length),
       };
     }
