@@ -71,6 +71,7 @@ Here is the complete list of returned objects:
 | `TRANSACTION_RAN_OUT_OF_GAS`                           | The transaction gas limit as a string.                                     |
 | `TRANSACTION_UNDERPRICED`                              | `undefined`                                                                |
 | `REJECTED_TRANSACTION`                                 | The reason why the transaction rejected.                                   |
+| `CALL_REVERTED`                                        | The reason why the call reverted.                                          |
 | `EXECUTION_REVERTED`                                   | The reason why the transaction reverted.                                   |
 | `NONCE_TOO_LOW`                                        | The transaction nonce as a string.                                         |
 | `INSUFFICIENT_FUNDS_FOR_GAS`                           | `undefined`                                                                |

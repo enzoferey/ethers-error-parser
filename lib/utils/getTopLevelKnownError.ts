@@ -26,6 +26,16 @@ export function getTopLevelKnownError(
     };
   }
 
+  if (
+    ethersError.code === ETHERS_ERROR_CODES.CALL_EXCEPTION &&
+    ethersError.reason !== undefined
+  ) {
+    return {
+      errorCode: RETURN_VALUE_ERROR_CODES.CALL_REVERTED,
+      context: ethersError.reason,
+    };
+  }
+
   const unpredictableGasLimitError = getUnpredictableGasLimitError(ethersError);
   if (unpredictableGasLimitError !== undefined) {
     return unpredictableGasLimitError;

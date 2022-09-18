@@ -82,6 +82,20 @@ describe("getParsedEthersError", () => {
       context: message,
     });
   });
+  it("should handle calls reverted via code", () => {
+    const reason = "TOKEN_ID_DOES_NOT_EXIST";
+
+    const result = getParsedEthersError({
+      message: "",
+      code: ETHERS_ERROR_CODES.CALL_EXCEPTION,
+      reason,
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.CALL_REVERTED,
+      context: reason,
+    });
+  });
   it("should handle transaction rejected via code", () => {
     const message = "User rejected transaction";
 
