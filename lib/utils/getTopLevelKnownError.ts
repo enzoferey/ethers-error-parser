@@ -16,6 +16,16 @@ export function getTopLevelKnownError(
     };
   }
 
+  if (
+    ethersError.code === ETHERS_ERROR_CODES.ACTION_REJECTED &&
+    ethersError.action === "sendTransaction"
+  ) {
+    return {
+      errorCode: RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION,
+      context: ethersError.message,
+    };
+  }
+
   const unpredictableGasLimitError = getUnpredictableGasLimitError(ethersError);
   if (unpredictableGasLimitError !== undefined) {
     return unpredictableGasLimitError;

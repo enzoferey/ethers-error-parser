@@ -82,7 +82,21 @@ describe("getParsedEthersError", () => {
       context: message,
     });
   });
-  it("should handle transaction rejected", () => {
+  it("should handle transaction rejected via code", () => {
+    const message = "User rejected transaction";
+
+    const result = getParsedEthersError({
+      message,
+      code: ETHERS_ERROR_CODES.ACTION_REJECTED,
+      action: "sendTransaction",
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.REJECTED_TRANSACTION,
+      context: message,
+    });
+  });
+  it("should handle transaction rejected via error code", () => {
     const message = "User rejected transaction";
 
     const result = getParsedEthersError({
