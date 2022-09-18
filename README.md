@@ -3,13 +3,14 @@
 ![Tests](https://github.com/enzoferey/ethers-error-parser/actions/workflows/test.yml/badge.svg)
 [![npm version](https://badge.fury.io/js/@enzoferey%2Fethers-error-parser.svg)](https://badge.fury.io/js/@enzoferey%2Fethers-error-parser)
 [![codecov](https://codecov.io/gh/enzoferey/ethers-error-parser/branch/main/graph/badge.svg?token=9amQLrkrar)](https://codecov.io/gh/enzoferey/ethers-error-parser)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/@enzoferey/ethers-error-parser?color=g&label=gzip%20size)
 
 Parse Ethers.js errors with ease 💅🏻
 
 ## Highlights
 
 - Zero dependencies 🧹
-- Lightweight (637 bytes gzipped) 📦
+- Lightweight 📦
 - Simple to use ⚡️
 - Work in progress 🚧
 
