@@ -17,6 +17,7 @@ export interface EthersError {
     gasUsed: BigNumber;
   };
   action?: string;
+  reason?: string;
 }
 
 export interface NestedEthersError {
