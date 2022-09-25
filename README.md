@@ -80,4 +80,6 @@ Here is the complete list of returned objects:
 | `MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE`             | `undefined `                                                               |
 | `UNKNOWN_ERROR`                                        | Some code or description of the error if available. `undefined` otherwise. |
 
+The error codes strings can be accesses via the `RETURN_VALUE_ERROR_CODES` constant that the package exports.
+
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
