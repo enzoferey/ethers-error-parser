@@ -83,3 +83,17 @@ Here is the complete list of returned objects:
 The error codes strings can be accesses via the `RETURN_VALUE_ERROR_CODES` constant that the package exports.
 
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
+
+The exposed types that may be needed for Typescript files are `BigNumber`, `EthersError`, `NestedEthersError` and `ReturnValue`, for instance : 
+
+```ts
+import { getParsedEthersError, EthersError } from "@enzoferey/ethers-error-parser";
+
+try {
+  const transaction = await someContract.someMethod();
+  await transaction.wait();
+} catch (error) {
+  const parsedEthersError = getParsedEthersError(error as EthersError);
+}
+```
+
