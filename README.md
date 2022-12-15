@@ -97,3 +97,5 @@ try {
 } catch (error) {
   const parsedEthersError = getParsedEthersError(error as EthersError);
 }
+```
+
