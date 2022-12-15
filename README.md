@@ -89,7 +89,10 @@ If you find some error that is not handled yet or that does not provide a great 
 If you are using TypeScript, you may find the required types exported at the root of the package. For example, when handling a common try / catch statement, you will need to cast the error to use the internal `EthersError` type:
 
 ```ts
-import { getParsedEthersError, EthersError } from "@enzoferey/ethers-error-parser";
+import {
+  getParsedEthersError,
+  EthersError,
+} from "@enzoferey/ethers-error-parser";
 
 try {
   const transaction = await someContract.someMethod();
@@ -98,4 +101,3 @@ try {
   const parsedEthersError = getParsedEthersError(error as EthersError);
 }
 ```
-
