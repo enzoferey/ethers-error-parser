@@ -86,7 +86,7 @@ If you find some error that is not handled yet or that does not provide a great 
 
 ## TypeScript usage
 
-If you are using TypeScript, you may find the required types exported at the root of package. For example, when handling a common try / catch statement, you will need to cast the error to use the internal `EthersError` type:
+If you are using TypeScript, you may find the required types exported at the root of the package. For example, when handling a common try / catch statement, you will need to cast the error to use the internal `EthersError` type:
 
 ```ts
 import { getParsedEthersError, EthersError } from "@enzoferey/ethers-error-parser";
