@@ -83,3 +83,21 @@ Here is the complete list of returned objects:
 The error codes strings can be accesses via the `RETURN_VALUE_ERROR_CODES` constant that the package exports.
 
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
+
+## TypeScript usage
+
+If you are using TypeScript, you may find the required types exported at the root of the package. For example, when handling a common try / catch statement, you will need to cast the error to use the internal `EthersError` type:
+
+```ts
+import {
+  getParsedEthersError,
+  EthersError,
+} from "@enzoferey/ethers-error-parser";
+
+try {
+  const transaction = await someContract.someMethod();
+  await transaction.wait();
+} catch (error) {
+  const parsedEthersError = getParsedEthersError(error as EthersError);
+}
+```
