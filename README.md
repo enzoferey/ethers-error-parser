@@ -84,7 +84,9 @@ The error codes strings can be accesses via the `RETURN_VALUE_ERROR_CODES` const
 
 If you find some error that is not handled yet or that does not provide a great context, please open an issue or pull request 🙏
 
-The exposed types that may be needed for Typescript files are `BigNumber`, `EthersError`, `NestedEthersError` and `ReturnValue`, for instance : 
+## TypeScript usage
+
+If you are using TypeScript, you may find the required types exported at the root of package. For example, when handling a common try / catch statement, you will need to cast the error to use the internal `EthersError` type:
 
 ```ts
 import { getParsedEthersError, EthersError } from "@enzoferey/ethers-error-parser";
@@ -95,5 +97,3 @@ try {
 } catch (error) {
   const parsedEthersError = getParsedEthersError(error as EthersError);
 }
-```
-
