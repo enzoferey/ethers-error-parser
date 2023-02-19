@@ -9,3 +9,4 @@ Closes #
 ## Checklist
 
 - [ ] Have you added any new returned codes to the README file ?
+- [ ] Have you added new tests for your change?
