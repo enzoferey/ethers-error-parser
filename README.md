@@ -60,7 +60,7 @@ When using `getParsedEthersError` you will get back an object containing a well 
 
 ```ts
 interface ReturnValue {
-  errorCode: string;
+  errorCode: ErrorCode;
   context?: string;
 }
 ```
