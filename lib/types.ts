@@ -42,3 +42,10 @@ export type ReturnValue = {
   errorCode: ErrorCode;
   context?: string;
 };
+
+// Convert an array of values into an object at which the key itself is the value
+export type ToObject<T extends readonly string[]> = {
+  [K in T[number]]: {
+    [K in T[number]]: K;
+  };
+}[T[number]];
