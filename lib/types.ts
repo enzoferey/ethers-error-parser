@@ -18,6 +18,8 @@ export interface EthersError {
   };
   action?: string;
   reason?: string;
+  operation?: string;
+  contractAddress?: string;
 }
 
 export interface NestedEthersError {

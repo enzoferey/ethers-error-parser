@@ -36,6 +36,16 @@ export function getTopLevelKnownError(
     };
   }
 
+  if (
+    ethersError.code === ETHERS_ERROR_CODES.UNSUPPORTED_OPERATION &&
+    ethersError.operation === "getDeployed" &&
+    ethersError.reason === "contract not deployed"
+  ) {
+    return {
+      errorCode: RETURN_VALUE_ERROR_CODES.CONTRACT_NOT_DEPLOYED,
+      context: ethersError.contractAddress,
+    };
+  }
   const unpredictableGasLimitError = getUnpredictableGasLimitError(ethersError);
   if (unpredictableGasLimitError !== undefined) {
     return unpredictableGasLimitError;

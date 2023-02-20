@@ -287,6 +287,21 @@ describe("getParsedEthersError", () => {
       context: gasLimit.toString(),
     });
   });
+  it("should handle getCode call to an address without a deployed contract", () => {
+    const contractAddress = "0xAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    const result = getParsedEthersError({
+      code: ETHERS_ERROR_CODES.UNSUPPORTED_OPERATION,
+      operation: "getDeployed",
+      reason: "contract not deployed",
+      message: "contract not deployed",
+      contractAddress,
+    });
+
+    expect(result).toEqual({
+      errorCode: RETURN_VALUE_ERROR_CODES.CONTRACT_NOT_DEPLOYED,
+      context: contractAddress,
+    });
+  });
   it("should handle unknown errors with a nested level error", () => {
     const code = "SOME INTERNAL ETHERS CODE";
     const message = "Some internal Ethers error message";
