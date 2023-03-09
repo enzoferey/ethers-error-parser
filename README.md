@@ -78,6 +78,7 @@ Here is the complete list of returned objects:
 | `INSUFFICIENT_FUNDS_FOR_GAS`                           | `undefined`                                                                |
 | `MAX_PRIORITY_FEE_PER_GAS_HIGHER_THAN_MAX_FEE_PER_GAS` | `undefined `                                                               |
 | `MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE`             | `undefined `                                                               |
+| `INVALID_ARGUMENT`                                     | The reason why the argument is invalid                                     |
 | `UNKNOWN_ERROR`                                        | Some code or description of the error if available. `undefined` otherwise. |
 
 The error codes strings can be accesses via the `RETURN_VALUE_ERROR_CODES` constant that the package exports.

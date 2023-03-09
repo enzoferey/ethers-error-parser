@@ -36,6 +36,13 @@ export function getTopLevelKnownError(
     };
   }
 
+  if (ethersError.code === ETHERS_ERROR_CODES.INVALID_ARGUMENT) {
+    return {
+      errorCode: RETURN_VALUE_ERROR_CODES.INVALID_ARGUMENT,
+      context: ethersError.message,
+    };
+  }
+
   const unpredictableGasLimitError = getUnpredictableGasLimitError(ethersError);
   if (unpredictableGasLimitError !== undefined) {
     return unpredictableGasLimitError;
