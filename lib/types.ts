@@ -18,6 +18,8 @@ export interface EthersError {
   };
   action?: string;
   reason?: string;
+  argument?: string;
+  value?: string;
 }
 
 export interface NestedEthersError {
