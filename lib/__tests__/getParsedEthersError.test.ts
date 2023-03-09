@@ -340,7 +340,7 @@ describe("getParsedEthersError", () => {
   it("should handle invalid argument", () => {
     const result = getParsedEthersError({
       message:
-        'bad address checksum (argument="address", value="0x9a3c3280621887ca096fE479BA515Fe0dDe6a4e1", code=INVALID_ARGUMENT, version=address/5.7.0)',
+        'bad address checksum (argument="address", value="0x9999999999999999999999999999999999999999", code=INVALID_ARGUMENT, version=address/5.7.0)',
       code: "INVALID_ARGUMENT",
       reason: "bad address checksum",
       argument: "address",
@@ -350,7 +350,7 @@ describe("getParsedEthersError", () => {
     expect(result).toEqual({
       errorCode: RETURN_VALUE_ERROR_CODES.INVALID_ARGUMENT,
       context:
-        'bad address checksum (argument="address", value="0x9a3c3280621887ca096fE479BA515Fe0dDe6a4e1", code=INVALID_ARGUMENT, version=address/5.7.0)',
+        'bad address checksum (argument="address", value="0x9999999999999999999999999999999999999999", code=INVALID_ARGUMENT, version=address/5.7.0)',
     });
   });
 });
